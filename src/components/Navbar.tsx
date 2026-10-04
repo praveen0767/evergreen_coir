@@ -25,9 +25,7 @@ const Navbar = () => {
         try {
           const res = await fetch(`${API_BASE}/products.php`);
           const data = await res.json();
-          if (Array.isArray(data)) {
-            setProducts(data);
-          }
+          if (Array.isArray(data)) setProducts(data);
         } catch (err) {
           console.error("Failed to fetch products:", err);
         }
@@ -37,9 +35,8 @@ const Navbar = () => {
   }, [showSearchResults, products.length]);
 
   const filteredProducts = products
-    .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) && p.status === 'Active')
+    .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) && p.status === "Active")
     .slice(0, 6);
-
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -60,10 +57,7 @@ const Navbar = () => {
       try {
         const res = await fetch(`${API_BASE}/categories.php`);
         const data = await res.json();
-        if (Array.isArray(data)) {
-          // Filter out categories with NULL slugs or Inactive status
-          setCategoriesList(data.filter(c => c.status === 'Active' && c.slug));
-        }
+        if (Array.isArray(data)) setCategoriesList(data.filter(c => c.status === "Active" && c.slug));
       } catch (err) {
         console.error("Failed to fetch categories:", err);
       }
@@ -80,28 +74,22 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white transition-all shadow-sm">
-      {/* Top Bar: Company Info & CTAs */}
       <div className="bg-white border-b border-gray-100 px-4 py-3">
         <div className="container mx-auto flex items-center justify-between gap-4">
-          {/* Logo and Brand */}
           <Link to="/" className="flex items-center gap-2 shrink-0 hover:opacity-90 transition-opacity">
-            <img src={v2Logo} alt="V² PRODUCT Logo" className="h-14 w-auto object-contain" />
+            <img src={v2Logo} alt="V2 Products Logo" className="h-14 w-auto object-contain" />
             <div className="hidden sm:block">
-              <p className="text-[20px] font-black leading-tight tracking-wide bg-gradient-to-r from-[#b8860b] via-[#d4a017] to-[#4a7c2f] bg-clip-text text-transparent uppercase">V² PRODUCT</p>
+              <p className="text-[20px] font-black leading-tight tracking-wide bg-gradient-to-r from-[#b8860b] via-[#d4a017] to-[#4a7c2f] bg-clip-text text-transparent uppercase">V2 PRODUCTS</p>
             </div>
           </Link>
 
-          {/* Navigation Links (Desktop Middle) */}
           <nav className="hidden lg:flex items-stretch self-stretch">
             <ul className="flex items-stretch">
               {navLinks.map((link) => (
                 <li key={link.label} className="flex border-r border-gray-50 last:border-r-0">
                   <Link
                     to={link.to}
-                    className={`px-8 flex items-center text-xs font-black tracking-widest transition-all ${isActive(link.to)
-                      ? "bg-primary text-white"
-                      : "text-gray-600 hover:text-primary"
-                      }`}
+                    className={`px-8 flex items-center text-xs font-black tracking-widest transition-all ${isActive(link.to) ? "bg-primary text-white" : "text-gray-600 hover:text-primary"}`}
                   >
                     {link.label}
                   </Link>
@@ -110,22 +98,48 @@ const Navbar = () => {
             </ul>
           </nav>
 
-          {/* Call and Enquiry (Right) */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {customer ? (
+              <>
+                <Link
+                  to="/profile"
+                  className="hidden sm:flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-600 hover:text-primary transition-colors"
+                >
+                  <UserCircle size={18} />
+                  <span>{customer.name}</span>
+                </Link>
+                <button
+                  onClick={logout}
+                  className="hidden sm:flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-500 hover:text-red-500 transition-colors"
+                  title="Logout"
+                >
+                  <LogOut size={17} />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setLoginModalOpen(true)}
+                className="hidden sm:flex items-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest hover:border-primary hover:text-primary transition-all"
+              >
+                <UserCircle size={17} />
+                Welcome Back
+              </button>
+            )}
 
-            {/* Login/Register button hidden */}
-
-            <div className="text-right hidden md:block">
+            <div className="text-right hidden xl:block">
               <p className="text-[10px] uppercase font-bold text-gray-400">Call Us Anytime</p>
               <div className="flex items-center gap-1.5 text-primary text-sm font-black">
                 <Phone size={14} className="fill-primary" />
                 <span>+91 93345 67890</span>
               </div>
             </div>
+
             <Link to="/contact-us" className="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 text-xs font-black shadow-md transition-all active:scale-95">
               <Send size={14} />
               <span className="hidden sm:inline">Send Enquiry</span>
             </Link>
+
             <button
               className="lg:hidden p-2 text-gray-600"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -136,7 +150,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Bottom Bar: Range & Search */}
       <div className="bg-gray-50/80 px-4 py-2 hidden sm:block">
         <div className="container mx-auto flex items-center justify-between gap-8">
           <div className="flex items-center gap-6">
@@ -145,19 +158,13 @@ const Navbar = () => {
                 <span className="uppercase tracking-widest border-b-2 border-primary">Our Range</span>
                 <ChevronDown size={14} className="group-hover:translate-y-0.5 transition-transform" />
               </button>
-
-              {/* Dropdown Menu */}
               <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[100] translate-y-2 group-hover:translate-y-0">
                 <div className="px-4 pb-2 mb-2 border-b border-gray-50">
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Product Categories</p>
                 </div>
                 <div className="max-h-[60vh] overflow-y-auto custom-scrollbar">
                   {Array.isArray(categoriesList) && categoriesList.map(cat => (
-                    <Link
-                      key={cat.slug}
-                      to={`/category/${cat.slug}`}
-                      className="block px-6 py-2.5 text-[11px] font-bold text-gray-600 hover:text-primary hover:bg-gray-50 transition-all flex items-center gap-3"
-                    >
+                    <Link key={cat.slug} to={`/category/${cat.slug}`} className="block px-6 py-2.5 text-[11px] font-bold text-gray-600 hover:text-primary hover:bg-gray-50 transition-all flex items-center gap-3">
                       <div className="w-1.5 h-1.5 rounded-full bg-primary/20 group-hover:bg-primary transition-colors" />
                       {cat.name}
                     </Link>
@@ -165,7 +172,6 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-
             <div className="hidden xl:flex items-center gap-5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
               {Array.isArray(categoriesList) && categoriesList.slice(0, 6).map(cat => (
                 <Link key={cat.slug} to={`/category/${cat.slug}`} className="hover:text-primary transition-colors whitespace-nowrap">{cat.name}</Link>
@@ -184,12 +190,12 @@ const Navbar = () => {
               className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2 text-xs focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all shadow-sm"
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
-            
+
             {showSearchResults && searchQuery && (
               <div className="absolute top-full right-0 mt-2 w-full bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map(product => (
-                    <div 
+                    <div
                       key={product.id}
                       onClick={() => {
                         navigate(`/product/${product.id}`);
@@ -212,9 +218,7 @@ const Navbar = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="px-4 py-5 text-xs font-semibold text-center text-gray-500">
-                    No products found.
-                  </div>
+                  <div className="px-4 py-5 text-xs font-semibold text-center text-gray-500">No products found.</div>
                 )}
               </div>
             )}
@@ -222,7 +226,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -237,13 +240,27 @@ const Navbar = () => {
                   key={link.label}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className={`text-sm font-bold tracking-widest py-2 px-4 rounded ${isActive(link.to) ? "bg-primary text-white" : "text-gray-600"
-                    }`}
+                  className={`text-sm font-bold tracking-widest py-2 px-4 rounded ${isActive(link.to) ? "bg-primary text-white" : "text-gray-600"}`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="h-px bg-gray-100 my-2"></div>
+              <div className="h-px bg-gray-100 my-2" />
+              {customer ? (
+                <>
+                  <Link to="/profile" onClick={() => setMobileOpen(false)} className="text-sm font-black text-gray-700 py-2 px-4">
+                    Signed in as {customer.name}
+                  </Link>
+                  <button onClick={() => { logout(); setMobileOpen(false); }} className="text-sm font-bold text-red-500 text-left py-2 px-4">
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <button onClick={() => { setLoginModalOpen(true); setMobileOpen(false); }} className="text-sm font-bold text-primary text-left py-2 px-4">
+                  Welcome Back
+                </button>
+              )}
+              <div className="h-px bg-gray-100 my-2" />
               <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-4">Categories</p>
               <div className="grid grid-cols-2 gap-2 px-4">
                 {Array.isArray(categoriesList) && categoriesList.map(cat => (
