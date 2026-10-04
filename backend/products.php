@@ -7,7 +7,7 @@ switch ($method) {
     case 'GET':
         if (isset($_GET['id'])) {
             // Get single product
-            $stmt = $pdo->prepare("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id WHERE p.id = ?");
+            $stmt = $pdo->prepare("SELECT p.*, (CASE WHEN LOWER(TRIM(c.name)) IN ('v² coconut oil', 'v2 coconut oil', 'naturas virgin oil', 'natural virgin oil') THEN 'V2 Oil' WHEN LOWER(TRIM(c.name)) = 'evergreen premium coir' THEN 'V2 Products' ELSE c.name END) as category_name FROM products p JOIN categories c ON p.category_id = c.id WHERE p.id = ?");
             $stmt->execute([$_GET['id']]);
             $product = $stmt->fetch();
             
@@ -34,7 +34,7 @@ switch ($method) {
                 $params = [$_GET['category_slug']];
             }
             
-            $stmt = $pdo->prepare("SELECT p.*, c.name as category_name, c.description as category_description 
+            $stmt = $pdo->prepare("SELECT p.*, (CASE WHEN LOWER(TRIM(c.name)) IN ('v² coconut oil', 'v2 coconut oil', 'naturas virgin oil', 'natural virgin oil') THEN 'V2 Oil' WHEN LOWER(TRIM(c.name)) = 'evergreen premium coir' THEN 'V2 Products' ELSE c.name END) as category_name, c.description as category_description 
                                   FROM products p 
                                   JOIN categories c ON p.category_id = c.id 
                                   $where ORDER BY p.id DESC");
@@ -55,7 +55,7 @@ switch ($method) {
             jsonResponse($products);
         } else {
             // List all products
-            $stmt = $pdo->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id ORDER BY p.id DESC");
+            $stmt = $pdo->query("SELECT p.*, (CASE WHEN LOWER(TRIM(c.name)) IN ('v² coconut oil', 'v2 coconut oil', 'naturas virgin oil', 'natural virgin oil') THEN 'V2 Oil' WHEN LOWER(TRIM(c.name)) = 'evergreen premium coir' THEN 'V2 Products' ELSE c.name END) as category_name FROM products p JOIN categories c ON p.category_id = c.id ORDER BY p.id DESC");
             $products = $stmt->fetchAll();
             
             foreach ($products as &$p) {
