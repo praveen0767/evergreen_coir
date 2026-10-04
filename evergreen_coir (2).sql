@@ -72,7 +72,7 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `status`, `create
 (8, 'Cocopeat Products', 'cocopeat-products', 'Our range of products include cocopeat coir pellets, rectangular cocopeat brick, coco coir roll, brown coco coir scrubber, coco coir mint tray and coco coir scrubber.', 'Active', '2026-04-05 09:02:38', '2026-04-05 09:02:38'),
 (9, 'Coir Mat', 'coir-mat', 'Our product range includes a wide range of coco coir mulch mat, woven coir roll, weed mulching mat, coir mulch mats for gardening, jute mulch mat and coir mulch mat.', 'Active', '2026-04-05 09:02:38', '2026-04-05 09:02:38'),
 (10, 'Mulch Mats', 'mulch-mats', 'Offering you a complete choice of products which include coir mulch mat(weed control mat).', 'Active', '2026-04-05 09:02:38', '2026-04-05 09:02:38'),
-(12, 'V² COCONUT OIL', 'v2-coconut-oil', 'Premium Organic Coconut Oil products.', 'Active', '2026-05-11 05:29:01', '2026-05-11 05:29:01');
+(12, 'V2 Oil', 'v2-coconut-oil', 'Premium Organic Coconut Oil products.', 'Active', '2026-05-11 05:29:01', '2026-05-11 05:29:01');
 
 -- --------------------------------------------------------
 
