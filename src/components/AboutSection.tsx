@@ -28,7 +28,7 @@ const AboutSection = () => {
             Rooted in Nature, Driven by Quality
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Srivari Coirs is a leading manufacturer and exporter of premium coir products based in
+            Evergreen Coir is a leading manufacturer and exporter of premium coir products based in
             Pollachi, Tamil Nadu. We transform coconut husks into eco-friendly solutions for
             gardening, agriculture, and beyond — serving customers across 20+ countries.
           </p>

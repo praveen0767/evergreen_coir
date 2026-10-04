@@ -1,98 +1,159 @@
-import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowUpRight, CheckCircle } from "lucide-react";
 import productCoirPot from "@/assets/product-coir-pot.jpg";
 import productMossStick from "@/assets/product-moss-stick.jpg";
 import productCocopeat from "@/assets/product-cocopeat.jpg";
 import productCoirMat from "@/assets/product-coir-mat.jpg";
 import productMulchMat from "@/assets/product-mulch-mat.jpg";
-import productBasket from "@/assets/product-basket.jpg";
-import productRope from "@/assets/product-rope.jpg";
+import productNewItems from "@/assets/product-rope.jpg";
+import productCoconutOil from "@/assets/product-coconut-oil.png";
 
-const categories = ["All", "Pots", "Mats", "Garden", "Accessories"];
-
-const products = [
-  { name: "Coco Coir Pot", category: "Pots", image: productCoirPot, desc: "Biodegradable pots for seedlings and plants" },
-  { name: "Moss Stick", category: "Garden", image: productMossStick, desc: "Natural support poles for climbing plants" },
-  { name: "Cocopeat Pellets", category: "Garden", image: productCocopeat, desc: "Compressed growing medium for germination" },
-  { name: "Coir Mat", category: "Mats", image: productCoirMat, desc: "Durable handwoven natural fiber doormats" },
-  { name: "Mulch Mat", category: "Mats", image: productMulchMat, desc: "Weed-suppressing mats for tree protection" },
-  { name: "Hanging Basket", category: "Pots", image: productBasket, desc: "Coco-lined hanging planters for gardens" },
-  { name: "Coir Rope", category: "Accessories", image: productRope, desc: "Strong, natural coconut fiber rope" },
+const productCategories = [
+  {
+    title: "V² PRODUCT",
+    slug: "v2-coconut-oil",
+    image: productCoconutOil,
+    description: "Premium cold-pressed and extra virgin organic coconut oil for health and wellness.",
+    features: ["100% Organic", "Cold Pressed", "Pure & Natural"]
+  },
+  {
+    title: "Coir Pot",
+    slug: "coir-pot",
+    image: productCoirPot,
+    description: "Eco-friendly biodegradable pots in various sizes for healthy root growth.",
+    features: ["100% Natural", "Air Permeable", "Root friendly"]
+  },
+  {
+    title: "Moss Sticks",
+    slug: "moss-sticks",
+    image: productMossStick,
+    description: "Sturdy support for climbing plants using premium natural coco fibers.",
+    features: ["Moisture Retentive", "Plant friendly", "Durable"]
+  },
+  {
+    title: "Cocopeat Products",
+    slug: "cocopeat-products",
+    image: productCocopeat,
+    description: "Premium growth medium for hydroponics, nurseries, and home gardening.",
+    features: ["High Water Retention", "Low EC", "Organic"]
+  },
+  {
+    title: "Coir Mat",
+    slug: "coir-mat",
+    image: productCoirMat,
+    description: "Heavy-duty erosion control and weed suppression mats for landscaping.",
+    features: ["Erosion Control", "Weed Suppression", "Long Lasting"]
+  },
+  {
+    title: "Mulch Mats",
+    slug: "mulch-mats",
+    image: productMulchMat,
+    description: "Round coir mats designed to protect plant roots and retain moisture.",
+    features: ["Root Protection", "Moisture Retention", "Eco-friendly"]
+  },
+  {
+    title: "New Items",
+    slug: "new-items",
+    image: productNewItems,
+    description: "Innovative new coir applications including needles felt and specialized ropes.",
+    features: ["Innovative Design", "Versatile Use", "Premium Quality"]
+  }
 ];
 
 const ProductsSection = () => {
-  const [active, setActive] = useState("All");
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
-  const filtered = active === "All" ? products : products.filter((p) => p.category === active);
-
   return (
-    <section id="products" className="py-24 bg-background">
-      <div className="container mx-auto px-4" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-3">Our Range</p>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground">
-            Premium Coir Products
-          </h2>
-        </motion.div>
-
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActive(cat)}
-              className={`rounded-full px-6 py-2 text-sm font-medium transition-all ${
-                active === cat
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-secondary"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+    <section id="products" className="py-24 bg-gray-50/50">
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2 text-primary font-black uppercase tracking-[0.2em] text-[10px] mb-4">
+              <span className="w-8 h-0.5 bg-primary" />
+              Our Product Portfolio
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 leading-tight uppercase tracking-tight">
+              Premium Coco Liners & <br /><span className="text-primary italic">Sustainable Coir Solutions</span>
+            </h2>
+          </div>
+          <Link
+            to="/category/coir-pot"
+            className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-primary border-b-2 border-primary pb-1 hover:gap-4 transition-all"
+          >
+            Explore All Categories <ArrowUpRight size={18} />
+          </Link>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filtered.map((product, i) => (
+        {/* Product Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {productCategories.map((cat, idx) => (
             <motion.div
-              key={product.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1 * i, duration: 0.4 }}
-              className="group bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-lg transition-all"
+              key={cat.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 group flex flex-col h-full"
             >
-              <div className="relative overflow-hidden aspect-square">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  loading="lazy"
-                  width={640}
-                  height={640}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-earth/0 group-hover:bg-earth/40 transition-colors duration-300 flex items-center justify-center">
-                  <a
-                    href="#enquiry"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground"
-                  >
-                    Enquire Now
-                  </a>
+              {/* Image Box */}
+              <div className="relative aspect-square overflow-hidden bg-gray-50/80 m-4 rounded-xl border border-gray-100 flex items-center justify-center">
+                <div className="absolute top-4 left-4 z-20">
+                  <span className="bg-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-sm text-gray-800 flex items-center gap-2 border border-gray-100/50">
+                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                    Export Quality
+                  </span>
                 </div>
+                <img
+                  src={cat.image}
+                  alt={cat.title}
+                  className="w-full h-full object-contain p-10 group-hover:scale-105 transition-transform duration-700"
+                />
               </div>
-              <div className="p-5">
-                <h3 className="font-heading text-lg font-semibold text-foreground">{product.name}</h3>
-                <p className="text-muted-foreground text-sm mt-1">{product.desc}</p>
+
+              {/* Content */}
+              <div className="px-8 pb-8 flex flex-col flex-1">
+                <h3 className="text-2xl font-black text-gray-900 mb-3 group-hover:text-primary transition-colors tracking-tight">
+                  {cat.title}
+                </h3>
+                <p className="text-[13px] text-gray-500 leading-relaxed mb-6 flex-1 font-medium italic">
+                  {cat.description}
+                </p>
+
+                <div className="space-y-2.5 mb-8">
+                  {cat.features.slice(0, 3).map(feature => (
+                    <div key={feature} className="flex items-center gap-2.5 text-[10px] font-black text-gray-800 uppercase tracking-widest">
+                      <div className="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center">
+                        <CheckCircle size={12} className="text-green-600 fill-green-600/10" />
+                      </div>
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+
+                <Link
+                  to={`/category/${cat.slug}`}
+                  className="w-full py-3.5 text-center bg-gray-50 text-gray-400 group-hover:bg-primary group-hover:text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-sm border border-gray-100"
+                >
+                  Explore Details
+                </Link>
               </div>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-20 text-center">
+          <div className="inline-flex items-center gap-8 px-10 py-6 bg-white border border-gray-100 rounded-2xl shadow-sm">
+            <div className="text-left">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">Bulk Orders</p>
+              <p className="text-sm font-bold text-gray-800">Looking for custom dimensions or wholesale pricing?</p>
+            </div>
+            <Link
+              to="/contact-us"
+              className="bg-primary text-white px-8 py-3 rounded-lg font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-md"
+            >
+              Request Quote
+            </Link>
+          </div>
         </div>
       </div>
     </section>

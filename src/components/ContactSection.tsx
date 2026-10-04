@@ -1,67 +1,156 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
-
-const contactInfo = [
-  { icon: MapPin, label: "Address", value: "Sulakkal, Pollachi, Coimbatore, Tamil Nadu, India" },
-  { icon: Phone, label: "Phone", value: "+91 80477 632 190" },
-  { icon: Mail, label: "Email", value: "info@srivaricoirs.com" },
-  { icon: Clock, label: "Hours", value: "Mon – Sat: 9:00 AM – 6:00 PM" },
-];
+import { API_BASE } from "@/config";
+import { motion } from "framer-motion";
+import { MapPin, Phone, User, Facebook, Twitter, Linkedin, MessageCircle } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const ContactSection = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const [message, setMessage] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [loading, setLoading] = useState(false);
 
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!mobileNumber.trim()) {
+      toast.error("Please enter your mobile number");
+      return;
+    }
+    if (!message.trim()) {
+      toast.error("Please enter a message");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_BASE}/contacts.php`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Website Visitor",
+          mobile: mobileNumber,
+          message: message
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        toast.success("Thank you for your message!");
+        setMessage("");
+        setMobileNumber("");
+      } else {
+        toast.error(data.message || "Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error submitting message:", error);
+      toast.error("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <section id="contact" className="py-24 bg-gradient-section">
-      <div className="container mx-auto px-4" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-3">Contact</p>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold text-foreground">
-            Find Us Here
-          </h2>
-        </motion.div>
+    <section id="contact" className="py-16 bg-white border-t border-gray-100">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row gap-0 rounded-xl overflow-hidden shadow-xl border border-gray-100">
+          {/* Left Side: Green Info Box */}
+          <div className="lg:w-5/12 bg-primary p-8 md:p-12 text-white">
+            <h2 className="text-2xl font-bold mb-10">V² PRODUCT</h2>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-6"
-          >
-            {contactInfo.map((item) => (
-              <div key={item.label} className="flex gap-4 items-start">
-                <div className="rounded-lg bg-primary/10 p-3">
-                  <item.icon className="h-5 w-5 text-primary" />
+            <div className="space-y-8">
+              <div className="flex gap-4 items-start">
+                <div className="bg-white/20 p-2 rounded shrink-0">
+                  <User size={20} />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground text-sm">{item.label}</p>
-                  <p className="text-muted-foreground text-sm">{item.value}</p>
+                  <p className="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">CONTACT PERSON</p>
+                  <p className="text-sm font-semibold">M.VIJAYAKUMAR</p>
                 </div>
               </div>
-            ))}
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="rounded-xl overflow-hidden border border-border shadow-sm h-80"
-          >
-            <iframe
-              title="Srivari Coirs Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.123456!2d76.95!3d10.65!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sPollachi%2C+Tamil+Nadu!5e0!3m2!1sen!2sin!4v1234567890"
-              className="w-full h-full"
-              loading="lazy"
-              allowFullScreen
-            />
-          </motion.div>
+              <div className="flex gap-4 items-start">
+                <div className="bg-white/20 p-2 rounded shrink-0">
+                  <MapPin size={20} />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">ADDRESS</p>
+                  <p className="text-sm font-semibold leading-relaxed">
+                    192, MANAIKKADU THOTTAM, SOLIPALAYAM,<br />
+                    15,VELAMPALAYAM POST,<br />
+                    TIRUPUR-641652
+                  </p>
+                  <a href="#" className="text-xs underline mt-2 block opacity-80 hover:opacity-100">Get Directions</a>
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-start">
+                <div className="bg-white/20 p-2 rounded shrink-0">
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">CONTACT NUMBERS</p>
+                  <p className="text-sm font-semibold mb-1">+91 93345 67890</p>
+                  <p className="text-sm font-semibold mb-1">+91 98949 99990</p>
+                  <p className="text-sm font-semibold">+91 93629 09999</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-start">
+                <div className="bg-white/20 p-2 rounded shrink-0">
+                  <MessageCircle size={20} />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase font-bold tracking-widest opacity-80 mb-1">WHATSAPP NUMBER</p>
+                  <p className="text-sm font-semibold">+91 93345 67890</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side: Contact Form */}
+          <div className="lg:w-7/12 bg-white p-8 md:p-12">
+            <div className="inline-block border-b-2 border-primary pb-1 mb-8">
+              <h2 className="text-xl font-bold text-gray-800 tracking-wider uppercase">
+                CONTACT US
+              </h2>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Your Mobile Number</label>
+                <div className="flex border border-gray-200 rounded-lg overflow-hidden focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all shadow-sm">
+                  <div className="flex items-center gap-2 px-4 bg-gray-50 border-r border-gray-200">
+                    <img src="https://flagcdn.com/in.svg" className="w-5 h-3.5" alt="India" />
+                    <span className="text-[13px] font-bold text-gray-700">+91</span>
+                  </div>
+                  <input
+                    type="tel"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    placeholder="Enter your mobile number"
+                    className="flex-1 w-full p-3.5 text-sm focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Your Message</label>
+                <textarea
+                  rows={6}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Tell us about your requirement..."
+                  className="w-full border border-gray-200 rounded-lg p-4 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-primary hover:bg-primary/90 text-white font-bold px-10 py-3 rounded text-sm transition-all shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {loading ? "Sending..." : "Submit"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
