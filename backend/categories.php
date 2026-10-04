@@ -6,7 +6,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
     case 'GET':
         // List all categories
-        $stmt = $pdo->query("SELECT * FROM categories ORDER BY id DESC");
+        $stmt = $pdo->query("SELECT id, CASE WHEN LOWER(TRIM(name)) IN ('v² coconut oil', 'v2 coconut oil', 'naturas virgin oil', 'natural virgin oil') THEN 'V2 Oil' WHEN LOWER(TRIM(name)) = 'evergreen premium coir' THEN 'V2 Products' ELSE name END AS name, slug, description, status, created_at, updated_at FROM categories ORDER BY id DESC");
         $categories = $stmt->fetchAll();
         jsonResponse($categories);
         break;
