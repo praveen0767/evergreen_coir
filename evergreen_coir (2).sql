@@ -174,7 +174,7 @@ CREATE TABLE `hero_slides` (
 --
 
 INSERT INTO `hero_slides` (`id`, `image_url`, `badge_text`, `title`, `subtitle`, `button_primary_text`, `button_secondary_text`, `order_index`, `created_at`) VALUES
-(1, 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1600&h=800&fit=crop', 'CERTIFIED MANUFACTURER', 'EVERGREEN PREMIUM COIR', 'Eco-friendly solutions for modern landscaping, gardening, and erosion control. Trusted by 500+ global clients.', 'VIEW OUR RANGE', 'GET CUSTOM QUOTE', 0, '2026-04-05 09:27:51'),
+(1, 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1600&h=800&fit=crop', 'CERTIFIED MANUFACTURER', 'V2 Products', 'Eco-friendly solutions for modern landscaping, gardening, and erosion control. Trusted by 500+ global clients.', 'VIEW OUR RANGE', 'GET CUSTOM QUOTE', 0, '2026-04-05 09:27:51'),
 (2, 'https://images.unsplash.com/photo-1592150621744-aca64f48394a?q=80&w=1600&h=800&fit=crop', 'QUALITY ASSURED', 'SUSTAINABLE GROWING MEDIA', 'High-performance cocopeat and coir products for global agriculture and horticulture.', 'DISCOVER PRODUCTS', 'GET CUSTOM QUOTE', 0, '2026-04-05 09:34:01'),
 (3, 'http://localhost/green-earth/evergreen-coir/backend/uploads/1775451089_coir_pots_6863994a-61aa-4ecd-ba94-aca0257b2a6b.webp', 'GLOBAL RELIABILITY', 'GLOBAL EXPORT PARTNER', 'Delivering premium coir solutions to 500+ clients across 30 countries.', 'CONTACT US', 'GET CUSTOM QUOTE', 0, '2026-04-05 09:34:01');
 
