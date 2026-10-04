@@ -8,7 +8,7 @@ try {
 
     switch ($method) {
         case 'GET':
-            $stmt = $pdo->query("SELECT * FROM hero_slides ORDER BY order_index ASC, id DESC");
+            $stmt = $pdo->query("SELECT id, image_url, badge_text, CASE WHEN LOWER(TRIM(title)) IN ('evergreen premium coir', 'ever green coir', 'evergreen coir') THEN 'V2 Products' ELSE title END AS title, subtitle, button_primary_text, button_secondary_text, order_index, created_at FROM hero_slides ORDER BY order_index ASC, id DESC");
             $slides = $stmt->fetchAll();
             jsonResponse($slides);
             break;
