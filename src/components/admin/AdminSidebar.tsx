@@ -80,7 +80,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }: AdminSidebarProps) => {
         <div className="p-6 border-b flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-primary rounded flex items-center justify-center text-white font-bold">E</div>
-            <span className="font-bold text-gray-800 tracking-tight">Evergreen Admin</span>
+            <span className="font-bold text-gray-800 tracking-tight">V2 Products Admin</span>
           </div>
           <button className="md:hidden text-gray-500" onClick={() => setIsOpen(false)}>
             <X className="w-5 h-5" />
