@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import MobileBottomNav from "./MobileBottomNav";
 import LoginModal from "./LoginModal";
 import { useAuth } from "@/contexts/AuthContext";
+import { normalizeBrandingName } from "@/lib/branding";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -57,7 +58,7 @@ const Navbar = () => {
       try {
         const res = await fetch(`${API_BASE}/categories.php`);
         const data = await res.json();
-        if (Array.isArray(data)) setCategoriesList(data.filter(c => c.status === "Active" && c.slug));
+        if (Array.isArray(data)) setCategoriesList(data.filter(c => c.status === "Active" && c.slug).map(c => ({ ...c, name: normalizeBrandingName(c.name) })));
       } catch (err) {
         console.error("Failed to fetch categories:", err);
       }
@@ -174,7 +175,7 @@ const Navbar = () => {
             </div>
             <div className="hidden xl:flex items-center gap-5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
               {Array.isArray(categoriesList) && categoriesList.slice(0, 6).map(cat => (
-                <Link key={cat.slug} to={`/category/${cat.slug}`} className="hover:text-primary transition-colors whitespace-nowrap">{cat.name}</Link>
+                <Link key={cat.slug} to={`/category/${cat.slug}`} className="hover:text-primary transition-colors whitespace-nowrap">{normalizeBrandingName(cat.name)}</Link>
               ))}
             </div>
           </div>
