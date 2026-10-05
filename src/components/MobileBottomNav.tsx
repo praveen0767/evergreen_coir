@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, User, Grid, Mail, Phone, ChevronUp, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { API_BASE } from "@/config";
+import { normalizeBrandingName } from "@/lib/branding";
 
 const MobileBottomNav = () => {
     const location = useLocation();
@@ -15,7 +16,7 @@ const MobileBottomNav = () => {
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {
-                    setCategories(data.filter(c => c.status === 'Active' && c.slug));
+                    setCategories(data.filter(c => c.status === 'Active' && c.slug).map(c => ({ ...c, name: normalizeBrandingName(c.name) })));
                 }
             })
             .catch(err => console.error("Error loading categories:", err));
