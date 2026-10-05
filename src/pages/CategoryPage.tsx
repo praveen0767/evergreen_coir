@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { ChevronRight, Filter, Loader2, Search } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import { normalizeBrandingName } from "@/lib/branding";
 
 interface Product {
     id: number;
@@ -40,12 +41,12 @@ const CategoryPage = () => {
                 }
                 
                 if (data.length > 0) {
-                    setCategoryName(data[0].category_name);
+                    setCategoryName(normalizeBrandingName(data[0].category_name));
                     setCategoryDesc(data[0].category_description || "");
                     setProducts(data);
                 } else {
                     // Fallback to static title if no products yet
-                    setCategoryName(categoryId?.replace(/-/g, ' ').toUpperCase() || "");
+                    setCategoryName(normalizeBrandingName(categoryId?.replace(/-/g, " ").toUpperCase() || ""));
                 }
             } catch (error) {
                 console.error("Fetch error:", error);
