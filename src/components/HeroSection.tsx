@@ -66,7 +66,7 @@ const HeroSection = () => {
   }];
 
   return (
-    <section className="relative h-[600px] md:h-[850px] overflow-hidden bg-gray-900">
+    <section className="relative min-h-[calc(100svh-140px)] md:min-h-[calc(100svh-180px)] overflow-hidden bg-gray-900">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
