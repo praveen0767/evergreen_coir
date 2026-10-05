@@ -2,6 +2,8 @@ export const normalizeBrandingName = (value: string = ""): string => {
   const normalized = value.trim().toLowerCase();
 
   if (
+    normalized === "v² oil" ||
+    normalized === "v2 oil" ||
     normalized === "v² coconut oil" ||
     normalized === "v2 coconut oil" ||
     normalized === "naturas virgin oil" ||
